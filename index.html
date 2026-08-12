@@ -3,76 +3,181 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Elgin STEM Society | A Community for Curious Minds</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
+  <title>ScamGuard - Anti-Scam Training & Simulator</title>
+  <style>
+    /* Global Styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
 
-  <div class="container">
-    
-    <header>
-      <h1>ELGIN STEM SOCIETY</h1>
-      <p class="subtitle">A Community for Curious Minds</p>
-      <p class="intro-text">
-        Are you a student in Elgin or a surrounding community interested in science, technology, engineering, or mathematics?
-        <br><br>
-        Join the Elgin STEM Society — a place for students to connect, learn, and collaborate with others who share a passion for STEM.
-      </p>
-    </header>
+    body {
+      background-color: #8bb8ff; /* Light Blue Background */
+      color: #1e293b;
+      padding: 30px 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 25px;
+    }
 
-    <section>
-      <h2>What We Do</h2>
-      <div class="grid">
-        <div class="card">
-          <h3>Explore STEM Topics</h3>
-          <p>Discover exciting ideas and concepts across science, technology, engineering, and mathematics.</p>
-        </div>
-        <div class="card">
-          <h3>Hands-On Activities</h3>
-          <p>Participate in challenges, projects, and activities that bring STEM to life.</p>
-        </div>
-        <div class="card">
-          <h3>Collaborate and Connect</h3>
-          <p>Meet students with similar interests and work together to solve problems.</p>
-        </div>
-        <div class="card">
-          <h3>Build Skills</h3>
-          <p>Develop creativity, teamwork, and problem-solving skills that can be useful in school and beyond.</p>
-        </div>
-      </div>
-    </section>
+    /* Container Card */
+    .card {
+      background: #ffffff;
+      width: 100%;
+      max-width: 800px;
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+    }
 
-    <section>
-      <h2>Who Can Join?</h2>
-      <p>Open to students in high school or below who live in Elgin or surrounding communities and are interested in exploring STEM.</p>
-    </section>
+    h1, h2 {
+      color: #0f172a;
+      margin-bottom: 10px;
+    }
 
-    <section>
-      <h2>Why Join?</h2>
-      <p>STEM is more than just textbooks and equations. It is about asking questions, exploring ideas, and finding solutions to real-world challenges. The Elgin STEM Society provides a space for students to share ideas, learn from one another, and grow their interest in STEM.</p>
-    </section>
+    h1 {
+      text-align: center;
+      font-size: 2.2rem;
+    }
 
-    <section>
-      <h2>Volunteer With Us</h2>
-      <p>As a new organization, we are looking for volunteers who are willing to share their knowledge and passion for STEM. Volunteers can help teach STEM topics, lead discussions, assist with activities, and work with students on projects. Whether you are a student, educator, or STEM enthusiast, your knowledge can help us build a stronger STEM community in Elgin and the surrounding areas.</p>
-    </section>
+    .subtitle {
+      text-align: center;
+      color: #2563eb;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
 
-    <section id="signup">
-      <h2>Join Us</h2>
-      <p>Scan the QR code to sign up and learn more, or click the button below to open our sign-up form:</p>
-      <br>
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSdC7ASDHqqquvVFWqUWs9EtzfZFEhlR6-5ikxnEobUhaQMsaQ/viewform" target="_blank" class="join-btn">
-        Fill Out Registration Form
-      </a>
-    </section>
+    .line {
+      width: 80px;
+      height: 4px;
+      background-color: #2563eb;
+      margin-bottom: 20px;
+      border-radius: 2px;
+    }
 
-    <section>
-      <h2>Contact</h2>
-      <div class="contact-list">
-        <div class="contact-card">
-          <strong>Krishiv Mahadik</strong>
-          <a href="mailto:mahadikkrishivs@gmail.com">mahadikkrishivs@gmail.com</a>
-        </div>
-        <div class="contact-card">
-          <strong>Shankar Noone</strong>
-          <a href="mailto:shankarnoone@gmail.com">shankarnoone@gmail.com
+    /* Email Quiz Section */
+    .email-container {
+      background-color: #f8fafc;
+      border: 2px dashed #cbd5e1;
+      border-radius: 10px;
+      padding: 20px;
+      margin-top: 15px;
+    }
+
+    .email-header {
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 10px;
+      margin-bottom: 12px;
+      font-size: 0.95rem;
+    }
+
+    .email-header div {
+      margin-bottom: 4px;
+    }
+
+    .email-body {
+      background: #ffffff;
+      padding: 15px;
+      border-radius: 6px;
+      border: 1px solid #e2e8f0;
+      line-height: 1.5;
+    }
+
+    .quiz-actions {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 12px;
+      font-size: 1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.1s ease, background-color 0.2s;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-real {
+      background-color: #22c55e;
+      color: white;
+    }
+
+    .btn-real:hover { background-color: #16a34a; }
+
+    .btn-fake {
+      background-color: #ef4444;
+      color: white;
+    }
+
+    .btn-fake:hover { background-color: #dc2626; }
+
+    .btn-next {
+      background-color: #2563eb;
+      color: white;
+      width: 100%;
+      margin-top: 15px;
+      display: none;
+    }
+
+    .feedback {
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: bold;
+      display: none;
+    }
+
+    .feedback.correct {
+      background-color: #dcfce7;
+      color: #15803d;
+      border: 1px solid #86efac;
+    }
+
+    .feedback.incorrect {
+      background-color: #fee2e2;
+      color: #b91c1c;
+      border: 1px solid #fca5a5;
+    }
+
+    /* AI Call Simulator Section */
+    .call-box {
+      background-color: #1e293b;
+      color: white;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .status-indicator {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: #64748b;
+      margin-right: 6px;
+    }
+
+    .status-indicator.active {
+      background-color: #22c55e;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.4; }
+      100% { opacity: 1; }
+    }
+
+    .call-log {
+      background-color: #0f172a;
+      border-radius:
