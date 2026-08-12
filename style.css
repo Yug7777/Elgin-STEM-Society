@@ -1,4 +1,21 @@
-/* Global Reset and Layout */
+/* ==========================================================================
+   Global Resets & CSS Variables
+   ========================================================================== */
+:root {
+  --bg-color: #8bb8ff;
+  --card-bg: #ffffff;
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --accent-blue: #2563eb;
+  --accent-hover: #1d4ed8;
+  --success-color: #22c55e;
+  --danger-color: #ef4444;
+  --warning-color: #f59e0b;
+  --terminal-bg: #0f172a;
+  --border-radius: 12px;
+  --transition-speed: 0.25s;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -7,68 +24,188 @@
 }
 
 body {
-  background-color: #8bb8ff; /* Light Blue Background */
-  color: #1e293b;
-  padding: 30px 15px;
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+/* ==========================================================================
+   Navigation
+   ========================================================================== */
+.navbar {
+  background-color: #ffffff;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.nav-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 15px 20px;
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  gap: 25px;
 }
 
-/* White Card Containers */
-.card {
-  background: #ffffff;
-  width: 100%;
-  max-width: 800px;
-  border-radius: 16px;
-  padding: 30px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+.logo {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--accent-blue);
 }
 
-h1, h2 {
-  color: #0f172a;
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 20px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: color var(--transition-speed);
+}
+
+.nav-links a:hover {
+  color: var(--accent-blue);
+}
+
+/* ==========================================================================
+   Hero Section
+   ========================================================================== */
+.hero {
+  max-width: 1000px;
+  margin: 30px auto 10px;
+  padding: 0 20px;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 2.4rem;
+  font-weight: 800;
   margin-bottom: 10px;
 }
 
-h1 {
-  text-align: center;
-  font-size: 2.2rem;
+.hero-subtitle {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  max-width: 700px;
+  margin: 0 auto 20px;
 }
 
-.subtitle {
-  text-align: center;
-  color: #2563eb;
-  font-weight: bold;
-  margin-bottom: 15px;
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
 }
 
-.line {
-  width: 80px;
+.stat-card {
+  background: var(--card-bg);
+  padding: 12px 24px;
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-number {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--accent-blue);
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+/* ==========================================================================
+   Main Cards Layout
+   ========================================================================== */
+.main-container {
+  max-width: 1000px;
+  margin: 20px auto 40px;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.card-header h2 {
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.accent-line {
+  width: 60px;
   height: 4px;
-  background-color: #2563eb;
-  margin-bottom: 20px;
+  background-color: var(--accent-blue);
+  margin: 8px 0 16px;
   border-radius: 2px;
 }
 
-/* Email Quiz Display Section */
-.email-container {
-  background-color: #f8fafc;
-  border: 2px dashed #cbd5e1;
-  border-radius: 10px;
-  padding: 20px;
-  margin-top: 15px;
+.section-desc {
+  color: var(--text-secondary);
+  margin-bottom: 20px;
 }
 
-.email-header {
-  border-bottom: 1px solid #e2e8f0;
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+.btn {
+  padding: 12px 20px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.1s ease, background-color var(--transition-speed);
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-primary { background-color: var(--accent-blue); color: white; }
+.btn-primary:hover { background-color: var(--accent-hover); }
+
+.btn-secondary { background-color: #64748b; color: white; }
+.btn-secondary:hover { background-color: #475569; }
+
+.btn-success { background-color: var(--success-color); color: white; }
+.btn-success:hover { background-color: #16a34a; }
+
+.btn-danger { background-color: var(--danger-color); color: white; }
+.btn-danger:hover { background-color: #dc2626; }
+
+.btn-full { width: 100%; margin-top: 15px; }
+
+/* ==========================================================================
+   Module 1: Email Quiz Styles
+   ========================================================================== */
+.email-wrapper {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 18px;
+  margin-bottom: 20px;
+}
+
+.email-meta {
+  border-bottom: 1px solid #cbd5e1;
   padding-bottom: 10px;
   margin-bottom: 12px;
-  font-size: 0.95rem;
-}
-
-.email-header div {
-  margin-bottom: 4px;
+  font-size: 0.9rem;
 }
 
 .email-body {
@@ -76,151 +213,195 @@ h1 {
   padding: 15px;
   border-radius: 6px;
   border: 1px solid #e2e8f0;
-  line-height: 1.5;
+  min-height: 100px;
 }
 
-/* Quiz Buttons & Feedback */
-.quiz-actions {
+.quiz-controls {
   display: flex;
   gap: 15px;
-  margin-top: 20px;
 }
 
-.btn {
-  flex: 1;
-  padding: 12px;
-  font-size: 1rem;
-  font-weight: bold;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: transform 0.1s ease, background-color 0.2s;
-}
+.quiz-controls .btn { flex: 1; }
 
-.btn:active {
-  transform: scale(0.98);
-}
-
-.btn-real {
-  background-color: #22c55e;
-  color: white;
-}
-
-.btn-real:hover { 
-  background-color: #16a34a; 
-}
-
-.btn-fake {
-  background-color: #ef4444;
-  color: white;
-}
-
-.btn-fake:hover { 
-  background-color: #dc2626; 
-}
-
-.btn-next {
-  background-color: #2563eb;
-  color: white;
-  width: 100%;
+.feedback-banner {
   margin-top: 15px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-weight: 700;
   display: none;
 }
 
-.feedback {
-  margin-top: 15px;
-  padding: 12px;
-  border-radius: 8px;
-  font-weight: bold;
-  display: none;
-}
-
-.feedback.correct {
+.feedback-banner.correct {
   background-color: #dcfce7;
   color: #15803d;
   border: 1px solid #86efac;
 }
 
-.feedback.incorrect {
+.feedback-banner.incorrect {
   background-color: #fee2e2;
   color: #b91c1c;
   border: 1px solid #fca5a5;
 }
 
-/* AI Call Simulator Section */
-.call-box {
-  background-color: #1e293b;
-  color: white;
-  border-radius: 12px;
-  padding: 20px;
-  text-align: center;
+#quiz-next-btn { display: none; }
+
+/* ==========================================================================
+   Module 2: Simulator Terminal Styles
+   ========================================================================== */
+.terminal-box {
+  background-color: var(--terminal-bg);
+  border-radius: 10px;
+  padding: 16px;
+  color: #f8fafc;
 }
 
-.status-indicator {
-  display: inline-block;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background-color: #64748b;
-  margin-right: 6px;
+.terminal-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid #334155;
+  padding-bottom: 10px;
+  margin-bottom: 12px;
 }
 
-.status-indicator.active {
-  background-color: #22c55e;
-  animation: pulse 1.5s infinite;
+.dot { width: 10px; height: 10px; border-radius: 50%; }
+.dot.red { background: #ef4444; }
+.dot.yellow { background: #f59e0b; }
+.dot.green { background: #22c55e; }
+
+.terminal-title {
+  margin-left: auto;
+  font-size: 0.85rem;
+  color: #94a3b8;
 }
 
-@keyframes pulse {
-  0% { opacity: 1; }
-  50% { opacity: 0.4; }
-  100% { opacity: 1; }
-}
-
-.call-log {
-  background-color: #0f172a;
-  border-radius: 8px;
-  padding: 15px;
-  min-height: 120px;
-  max-height: 200px;
+.terminal-body {
+  min-height: 140px;
+  max-height: 220px;
   overflow-y: auto;
-  text-align: left;
-  margin: 15px 0;
   font-family: monospace;
-  font-size: 0.95rem;
-}
-
-.call-btn {
-  background-color: #22c55e;
-  color: white;
-  padding: 12px 24px;
-  font-size: 1rem;
-  font-weight: bold;
-  border: none;
-  border-radius: 25px;
-  cursor: pointer;
-}
-
-.call-btn.end {
-  background-color: #ef4444;
-}
-
-.user-choices {
+  font-size: 0.9rem;
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.choices-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   margin-top: 15px;
 }
 
 .choice-btn {
-  background-color: #334155;
-  color: white;
-  border: none;
+  background-color: #1e293b;
+  color: #f8fafc;
+  border: 1px solid #475569;
   padding: 10px;
   border-radius: 6px;
-  cursor: pointer;
   text-align: left;
+  cursor: pointer;
+  font-size: 0.9rem;
 }
 
-.choice-btn:hover {
-  background-color: #475569;
+.choice-btn:hover { background-color: #334155; }
+
+.sim-actions { margin-top: 15px; }
+
+/* ==========================================================================
+   Module 3: SMS Inspector
+   ========================================================================== */
+.sms-inspector textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  font-size: 0.95rem;
+  resize: vertical;
 }
+
+.analysis-results {
+  margin-top: 20px;
+  background: #f8fafc;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.risk-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-weight: 800;
+  font-size: 0.85rem;
+  margin: 8px 0 12px;
+  background-color: #cbd5e1;
+  color: #334155;
+}
+
+.risk-badge.high { background-color: #fee2e2; color: #b91c1c; }
+.risk-badge.low { background-color: #dcfce7; color: #15803d; }
+
+.findings-list {
+  padding-left: 20px;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+/* ==========================================================================
+   Module 4: Password Checker
+   ========================================================================== */
+.password-tester {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.password-tester input {
+  padding: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.meter-bar-background {
+  height: 8px;
+  background-color: #e2e8f0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.meter-bar-fill {
+  height: 100%;
+  width: 0%;
+  background-color: var(--danger-color);
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.pass-metrics { font-size: 0.9rem; }
+
+#pass-criteria-list {
+  margin-top: 8px;
+  list-style: none;
+}
+
+#pass-criteria-list li {
+  color: #94a3b8;
+  margin-bottom: 4px;
+}
+
+#pass-criteria-list li.valid {
+  color: var(--success-color);
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   Module 5: Tips Hub
+   ========================================================================== */
+#tip-search-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  margin-bottom: 20px;

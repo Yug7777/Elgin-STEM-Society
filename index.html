@@ -3,61 +3,171 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ScamGuard - Anti-Scam Training & Simulator</title>
+  <title>ScamGuard Pro | Interactive Cyber Safety Platform</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div class="card">
-    <h1>ScamGuard Awareness</h1>
-    <p class="subtitle">Learn to spot scams before they spot you</p>
-    <p style="text-align: center;">Practice identifying phishing emails and simulate scam phone calls in a safe, interactive environment.</p>
-  </div>
-
-  <div class="card">
-    <h2>1. Email Phishing Quiz</h2>
-    <div class="line"></div>
-    <p>Analyze the email below. Is it <strong>Real</strong> or a <strong>Fake (Scam)</strong>?</p>
-
-    <div class="email-container">
-      <div class="email-header">
-        <div><strong>From:</strong> <span id="email-from"></span></div>
-        <div><strong>Subject:</strong> <span id="email-subject"></span></div>
-      </div>
-      <div class="email-body" id="email-body"></div>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="logo">🛡️ ScamGuard Pro</div>
+      <ul class="nav-links">
+        <li><a href="#email-quiz">Email Quiz</a></li>
+        <li><a href="#call-sim">Call Simulator</a></li>
+        <li><a href="#sms-analyzer">SMS Analyzer</a></li>
+        <li><a href="#password-checker">Password Check</a></li>
+        <li><a href="#tips-hub">Safety Tips</a></li>
+      </ul>
     </div>
+  </nav>
 
-    <div class="quiz-actions" id="quiz-buttons">
-      <button class="btn btn-real" onclick="checkAnswer(true)">Real Email</button>
-      <button class="btn btn-fake" onclick="checkAnswer(false)">Fake / Scam</button>
+  <header class="hero">
+    <h1>Protect Yourself Against Digital Scams</h1>
+    <p class="hero-subtitle">Interactive training tools to spot phishing emails, fraudulent calls, malicious texts, and weak credentials.</p>
+    <div class="hero-stats">
+      <div class="stat-card">
+        <span class="stat-number" id="quiz-score-display">0 / 3</span>
+        <span class="stat-label">Quiz Score</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number" id="sim-status-display">Ready</span>
+        <span class="stat-label">Simulator Status</span>
+      </div>
     </div>
+  </header>
 
-    <div class="feedback" id="feedback-box"></div>
-    <button class="btn btn-next" id="next-btn" onclick="loadNextQuestion()">Next Question</button>
-  </div>
+  <main class="main-container">
 
-  <div class="card">
-    <h2>2. AI Scam Call Simulator</h2>
-    <div class="line"></div>
-    <p>Simulate a realistic scam call to practice how to respond safely without giving away private information.</p>
-    <br>
+    <section id="email-quiz" class="card">
+      <div class="card-header">
+        <h2>1. Phishing Email Detector Quiz</h2>
+        <div class="accent-line"></div>
+      </div>
+      <p class="section-desc">Examine the sample email below. Determine whether it is a legitimate communication or a fraudulent phishing attempt.</p>
 
-    <div class="call-box">
-      <div>
-        <span class="status-indicator" id="status-dot"></span>
-        <span id="call-status">Call Disconnected</span>
+      <div class="email-wrapper">
+        <div class="email-meta">
+          <div class="meta-row"><strong>From:</strong> <span id="email-sender">--</span></div>
+          <div class="meta-row"><strong>Subject:</strong> <span id="email-subject">--</span></div>
+          <div class="meta-row"><strong>Date:</strong> <span id="email-date">August 12, 2026</span></div>
+        </div>
+        <div class="email-body" id="email-body">--</div>
       </div>
 
-      <div class="call-log" id="call-log">
-        <em>Press "Start Scam Call Simulation" to begin...</em>
+      <div class="quiz-controls" id="quiz-actions">
+        <button class="btn btn-success" onclick="evaluateQuiz(true)">Legitimate Email</button>
+        <button class="btn btn-danger" onclick="evaluateQuiz(false)">Phishing / Scam</button>
       </div>
 
-      <div class="user-choices" id="user-choices" style="display: none;"></div>
+      <div class="feedback-banner" id="quiz-feedback"></div>
+      <button class="btn btn-primary btn-full" id="quiz-next-btn" onclick="nextQuizQuestion()">Next Scenario →</button>
+    </section>
 
-      <br>
-      <button class="call-btn" id="toggle-call-btn" onclick="toggleCall()">Start Scam Call Simulation</button>
-    </div>
-  </div>
+    <section id="call-sim" class="card">
+      <div class="card-header">
+        <h2>2. Voice Scam Call Simulator</h2>
+        <div class="accent-line"></div>
+      </div>
+      <p class="section-desc">Experience realistic phone scam scenarios. Practice handling pressure tactics without revealing sensitive personal or financial information.</p>
+
+      <div class="terminal-box">
+        <div class="terminal-header">
+          <span class="dot red"></span>
+          <span class="dot yellow"></span>
+          <span class="dot green"></span>
+          <span class="terminal-title">Line Status: <span id="call-status-text">Disconnected</span></span>
+        </div>
+        <div class="terminal-body" id="call-terminal-log">
+          <p class="system-msg">[System Ready]: Click "Initiate Call Simulation" to start...</p>
+        </div>
+        <div class="choices-container" id="call-choices"></div>
+      </div>
+
+      <div class="sim-actions">
+        <button class="btn btn-primary" id="call-toggle-btn" onclick="toggleCallSimulation()">Initiate Call Simulation</button>
+      </div>
+    </section>
+
+    <section id="sms-analyzer" class="card">
+      <div class="card-header">
+        <h2>3. SMS / Text Message Threat Inspector</h2>
+        <div class="accent-line"></div>
+      </div>
+      <p class="section-desc">Paste or type a suspicious text message below to inspect it for common scam triggers like urgent deadlines, suspicious shortlinks, and prize claims.</p>
+
+      <div class="sms-inspector">
+        <textarea id="sms-input-text" placeholder="Paste suspicious SMS text here (e.g. 'Your parcel delivery failed. Update details at bit.ly/1234 immediately...')" rows="4"></textarea>
+        <button class="btn btn-primary" onclick="analyzeSMS()">Analyze Message</button>
+
+        <div class="analysis-results" id="sms-results">
+          <h3>Analysis Summary</h3>
+          <div id="sms-risk-badge" class="risk-badge">Awaiting Input</div>
+          <ul id="sms-findings-list" class="findings-list"></ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="password-checker" class="card">
+      <div class="card-header">
+        <h2>4. Real-Time Password Strength Evaluator</h2>
+        <div class="accent-line"></div>
+      </div>
+      <p class="section-desc">Test password complexity in real time to understand how credential strength impacts account security.</p>
+
+      <div class="password-tester">
+        <input type="password" id="pass-input" placeholder="Enter a sample password to evaluate..." oninput="checkPasswordStrength()">
+        <button class="btn btn-secondary" onclick="togglePasswordVisibility()">Show / Hide</button>
+
+        <div class="meter-bar-background">
+          <div class="meter-bar-fill" id="pass-meter"></div>
+        </div>
+
+        <div class="pass-metrics">
+          <span id="pass-score-text">Strength: Unevaluated</span>
+          <ul id="pass-criteria-list">
+            <li id="crit-length">At least 12 characters</li>
+            <li id="crit-upper">Uppercase & Lowercase letters</li>
+            <li id="crit-num">Numbers included</li>
+            <li id="crit-spec">Special symbols (@, #, $, etc.)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="tips-hub" class="card">
+      <div class="card-header">
+        <h2>5. Cyber Safety Knowledge Base</h2>
+        <div class="accent-line"></div>
+      </div>
+      <p class="section-desc">Search through foundational rules for staying secure across web browsers, email inboxes, and mobile devices.</p>
+
+      <input type="text" id="tip-search-input" placeholder="Search tips (e.g., 'mfa', 'bank', 'wifi')..." onkeyup="filterTips()">
+
+      <div class="tips-grid" id="tips-container">
+        <div class="tip-card" data-keywords="mfa 2fa login authentication security">
+          <h3>🔐 Enable Multi-Factor Authentication (MFA)</h3>
+          <p>Always turn on MFA on vital accounts. Even if a scammer steals your password, they cannot log in without the second verification step.</p>
+        </div>
+        <div class="tip-card" data-keywords="bank money transfer urgency call urgency">
+          <h3>🏦 Verify Banking Requests Directly</h3>
+          <p>If you receive a phone call or text claiming your bank account is compromised, hang up and call the number printed on your actual card.</p>
+        </div>
+        <div class="tip-card" data-keywords="wifi public internet vpn network">
+          <h3>📶 Avoid Sensitive Tasks on Public Wi-Fi</h3>
+          <p>Unencrypted public networks can allow attacker interception. Use cellular data or a trusted VPN when logging into sensitive portals.</p>
+        </div>
+        <div class="tip-card" data-keywords="updates software browser patch malware">
+          <h3>🔄 Keep Devices and Software Updated</h3>
+          <p>System updates patch security vulnerabilities. Enable automatic updates for your browser, operating system, and security apps.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2026 ScamGuard Pro Initiative. Dedicated to digital awareness and online safety education.</p>
+  </footer>
 
   <script src="script.js"></script>
 </body>

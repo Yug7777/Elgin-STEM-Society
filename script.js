@@ -1,180 +1,151 @@
-/* ====================================
-   1. EMAIL QUIZ DATA & LOGIC
-   ==================================== */
-const questions = [
+/* ==========================================================================
+   MODULE 1: EMAIL PHISHING QUIZ LOGIC
+   ========================================================================== */
+const emailScenarios = [
   {
-    from: "support@netfIix-security-alert.com",
-    subject: "URGENT: Your Account Has Been Suspended",
-    body: "Dear Customer,<br><br>We detected unusual activity on your account. Please click <a href='#'>here</a> to verify your credit card details within 24 hours or your subscription will be permanently canceled.",
-    isReal: false,
-    explanation: "Fake! Look closely at the domain name ('netfIix' uses a capital 'I' instead of an 'l'). Legitimate services will not threaten immediate cancellation via an external link."
+    sender: "security-alert@netfIix-billing-update.com",
+    subject: "CRITICAL: Account suspension notice",
+    body: "Dear Customer,<br><br>Your payment method failed. Click <a href='#'>here</a> immediately to verify your credit card details or your account will be deleted in 24 hours.",
+    isLegit: false,
+    explanation: "Scam! Look at the domain name ('netfIix' uses a capital 'I' instead of 'l'). Legitimate companies do not threaten rapid account deletion via unverified links."
   },
   {
-    from: "no-reply@accounts.google.com",
-    subject: "Security Alert: New sign-in from Chrome on Windows",
-    body: "Your Google Account was just signed in to from a new Windows device. If this was you, you don't need to do anything. If not, check your recent activity page.",
-    isReal: true,
-    explanation: "Real! The sender domain (@accounts.google.com) is authentic, and the email does not demand private security credentials or lead to third-party payment forms."
+    sender: "no-reply@accounts.google.com",
+    subject: "Security Alert: New device login detected",
+    body: "Your Google Account was logged into from a new Windows workstation. If this was you, no action is needed. If not, check your account security activity page.",
+    isLegit: true,
+    explanation: "Legitimate! Sender domain (@accounts.google.com) is valid, and the email directs you to native account settings without asking for credentials."
   },
   {
-    from: "claims@lottery-winner-payouts.org",
-    subject: "You won $50,000 in the International Tech Draw!",
-    body: "Congratulations! You have been randomly selected to receive $50,000. To claim your reward, send a small processing fee of $150 via Gift Card code.",
-    isReal: false,
-    explanation: "Fake! Legitimate sweepstakes and lotteries never demand an upfront processing fee or gift cards to release winnings."
+    sender: "payouts@lottery-grand-prize.org",
+    subject: "You won $250,000 in the International Tech Raffle!",
+    body: "Congratulations! You won $250,000. To release your payout, wire a $200 processing fee via Gift Card codes.",
+    isLegit: false,
+    explanation: "Scam! Genuine lotteries and contests never require winner processing fees or gift card payments."
   }
 ];
 
-let currentQuestionIndex = 0;
+let quizIndex = 0;
+let quizScore = 0;
 
-function loadQuestion() {
-  const q = questions[currentQuestionIndex];
-  document.getElementById("email-from").innerText = q.from;
-  document.getElementById("email-subject").innerText = q.subject;
-  document.getElementById("email-body").innerHTML = q.body;
-  
-  document.getElementById("feedback-box").style.display = "none";
-  document.getElementById("next-btn").style.display = "none";
-  document.getElementById("quiz-buttons").style.display = "flex";
+function renderQuizScenario() {
+  const current = emailScenarios[quizIndex];
+  document.getElementById("email-sender").innerText = current.sender;
+  document.getElementById("email-subject").innerText = current.subject;
+  document.getElementById("email-body").innerHTML = current.body;
+
+  document.getElementById("quiz-feedback").style.display = "none";
+  document.getElementById("quiz-actions").style.display = "flex";
+  document.getElementById("quiz-next-btn").style.display = "none";
 }
 
-function checkAnswer(userChoice) {
-  const q = questions[currentQuestionIndex];
-  const feedbackBox = document.getElementById("feedback-box");
-  const isCorrect = userChoice === q.isReal;
+function evaluateQuiz(userChoice) {
+  const current = emailScenarios[quizIndex];
+  const feedback = document.getElementById("quiz-feedback");
+  const isCorrect = (userChoice === current.isLegit);
 
-  feedbackBox.style.display = "block";
   if (isCorrect) {
-    feedbackBox.className = "feedback correct";
-    feedbackBox.innerHTML = "✔ Correct! " + q.explanation;
+    quizScore++;
+    feedback.className = "feedback-banner correct";
+    feedback.innerHTML = "✔ Correct! " + current.explanation;
   } else {
-    feedbackBox.className = "feedback incorrect";
-    feedbackBox.innerHTML = "✖ Incorrect. " + q.explanation;
+    feedback.className = "feedback-banner incorrect";
+    feedback.innerHTML = "✖ Incorrect. " + current.explanation;
   }
 
-  document.getElementById("quiz-buttons").style.display = "none";
-  document.getElementById("next-btn").style.display = "block";
+  document.getElementById("quiz-score-display").innerText = `${quizScore} / ${emailScenarios.length}`;
+  feedback.style.display = "block";
+  document.getElementById("quiz-actions").style.display = "none";
+  document.getElementById("quiz-next-btn").style.display = "block";
 }
 
-function loadNextQuestion() {
-  currentQuestionIndex = (currentQuestionIndex + 1) % questions.length;
-  loadQuestion();
+function nextQuizQuestion() {
+  quizIndex = (quizIndex + 1) % emailScenarios.length;
+  renderQuizScenario();
 }
 
-/* ====================================
-   2. AI SCAM CALL SIMULATOR LOGIC
-   ==================================== */
-let isCallActive = false;
+/* ==========================================================================
+   MODULE 2: AI SCAM CALL SIMULATOR LOGIC
+   ========================================================================== */
+let callActive = false;
 let callStep = 0;
 
 const callScript = [
   {
-    scammer: "[Caller]: Hello! I am calling from your Bank's Fraud Prevention Unit. We noticed a suspicious charge of $899 on your debit card. Can you confirm your 16-digit card number to cancel it?",
-    options: [
-      { text: "Give them card details to fix it fast", action: "fail_card" },
-      { text: "Ask which bank they are calling from specifically", action: "ask_bank" },
-      { text: "Hang up immediately and call the official bank number directly", action: "pass" }
+    caller: "[Caller]: Hello! I'm calling from your bank's anti-fraud team. We detected an unauthorized charge of $1,250. Can you confirm your 16-digit debit card number to stop it?",
+    choices: [
+      { text: "Provide card details immediately", result: "fail", response: "[ALERT]: Never read card numbers or PINs to incoming callers!" },
+      { text: "Ask: 'Which specific bank are you calling from?'", result: "next", response: "" },
+      { text: "Hang up and call the number on the back of your card", result: "pass", response: "[SUCCESS]: Perfect response! Hanging up and contacting your official branch directly is the safest path." }
     ]
   },
   {
-    scammer: "[Caller]: Sir/Ma'am, we are calling from Universal Central Bank! If you do not verify the card number right now, your account will be locked indefinitely!",
-    options: [
-      { text: "Panic and read out the card details", action: "fail_card" },
-      { text: "Hang up and verify through your official mobile banking application", action: "pass" }
+    caller: "[Caller]: Sir/Ma'am, we are calling from First Federal Bank! If you do not verify the card number within 60 seconds, your account will be frozen!",
+    choices: [
+      { text: "Panic and read the card number", result: "fail", response: "[ALERT]: Scammers rely on artificial urgency to bypass logic." },
+      { text: "Hang up and check your official banking app", result: "pass", response: "[SUCCESS]: Excellent! You avoided a panic-driven scam attempt." }
     ]
   }
 ];
 
-function toggleCall() {
-  const btn = document.getElementById("toggle-call-btn");
-  const dot = document.getElementById("status-dot");
-  const statusText = document.getElementById("call-status");
-  const log = document.getElementById("call-log");
+function toggleCallSimulation() {
+  const btn = document.getElementById("call-toggle-btn");
+  const statusText = document.getElementById("call-status-text");
+  const log = document.getElementById("call-terminal-log");
 
-  if (!isCallActive) {
-    // Start Call Simulation
-    isCallActive = true;
+  if (!callActive) {
+    callActive = true;
     callStep = 0;
-    btn.innerText = "End Call";
-    btn.classList.add("end");
-    dot.classList.add("active");
-    statusText.innerText = "Call Connected (Unknown Number)";
-    log.innerHTML = "<strong>[System]: Call Connected...</strong><br>";
+    btn.innerText = "Terminate Simulation";
+    btn.className = "btn btn-danger";
+    statusText.innerText = "Active Call";
+    document.getElementById("sim-status-display").innerText = "Call Active";
+    log.innerHTML = `<p style="color:#64748b;">[System]: Incoming encrypted call connected...</p>`;
     
-    // Voice speech synthesis execution
-    speakText("Hello! I am calling from your Bank Fraud Prevention Unit.");
-    
-    displayCallStep();
+    speakText("Hello! I am calling from your bank's anti fraud team.");
+    renderCallStep();
   } else {
-    // Terminate Call
-    endCall("Call Ended by User.");
+    terminateCallSimulation("Simulation ended by user.");
   }
 }
 
-function displayCallStep() {
-  const log = document.getElementById("call-log");
-  const choicesBox = document.getElementById("user-choices");
-  const stepData = callScript[callStep];
+function renderCallStep() {
+  const log = document.getElementById("call-terminal-log");
+  const choicesBox = document.getElementById("call-choices");
+  const currentStep = callScript[callStep];
 
-  if (!stepData) return;
+  if (!currentStep) return;
 
-  log.innerHTML += `<br><div>${stepData.scammer}</div>`;
+  log.innerHTML += `<p style="color:#f8fafc;">${currentStep.caller}</p>`;
   log.scrollTop = log.scrollHeight;
 
-  choicesBox.style.display = "flex";
   choicesBox.innerHTML = "";
-
-  stepData.options.forEach(opt => {
-    const button = document.createElement("button");
-    button.className = "choice-btn";
-    button.innerText = opt.text;
-    button.onclick = () => handleUserChoice(opt);
-    choicesBox.appendChild(button);
+  currentStep.choices.forEach(c => {
+    const btn = document.createElement("button");
+    btn.className = "choice-btn";
+    btn.innerText = c.text;
+    btn.onclick = () => processCallChoice(c);
+    choicesBox.appendChild(btn);
   });
 }
 
-function handleUserChoice(option) {
-  const log = document.getElementById("call-log");
+function processCallChoice(choice) {
+  const log = document.getElementById("call-terminal-log");
+  const choicesBox = document.getElementById("call-choices");
 
-  log.innerHTML += `<br><div style="color: #60a5fa;">> You: ${option.text}</div>`;
+  log.innerHTML += `<p style="color:#60a5fa;">> You selected: "${choice.text}"</p>`;
+  choicesBox.innerHTML = "";
 
-  if (option.action === "fail_card") {
-    log.innerHTML += `<br><div style="color: #f87171;"><strong>[ALERT]: Scam vector hit. Never provide card numbers or security tokens during incoming unverified phone calls.</strong></div>`;
-    endCall("Simulation Failed");
-  } else if (option.action === "pass") {
-    log.innerHTML += `<br><div style="color: #4ade80;"><strong>[SUCCESS]: Perfect response. Hanging up and dialing official bank contacts directly removes the threat.</strong></div>`;
-    endCall("Simulation Passed");
-  } else if (option.action === "ask_bank") {
+  if (choice.result === "fail" || choice.result === "pass") {
+    log.innerHTML += `<p style="color: ${choice.result === 'pass' ? '#4ade80' : '#f87171'}; font-weight:bold;">${choice.response}</p>`;
+    terminateCallSimulation("Session Completed");
+  } else if (choice.result === "next") {
     callStep++;
-    displayCallStep();
+    renderCallStep();
   }
 }
 
-function endCall(reason) {
-  isCallActive = false;
-  const btn = document.getElementById("toggle-call-btn");
-  const dot = document.getElementById("status-dot");
-  const statusText = document.getElementById("call-status");
-  const choicesBox = document.getElementById("user-choices");
-  const log = document.getElementById("call-log");
-
-  btn.innerText = "Start Scam Call Simulation";
-  btn.classList.remove("end");
-  dot.classList.remove("active");
-  statusText.innerText = "Call Disconnected";
-  choicesBox.style.display = "none";
-  log.innerHTML += `<br><br><em>[System]: ${reason}</em>`;
-}
-
-function speakText(text) {
-  if ('speechSynthesis' in window) {
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = 0.95;
-    window.speechSynthesis.speak(utterance);
-  }
-}
-
-// Initializing Quiz State on Load
-document.addEventListener("DOMContentLoaded", () => {
-  loadQuestion();
-});
+function terminateCallSimulation(reason) {
+  callActive = false;
+  document.getElementById("call-toggle-btn").innerText = "Initiate Call Simulation";
+  document.getElementById("call-toggle-btn").className = "btn btn-primary
